@@ -20,7 +20,7 @@
     This is not rendered as code
 */
 
-package main
+package phonebook
 
 import (
 	"database/sql"

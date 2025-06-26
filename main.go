@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+
+	"github.com/EvgenyiK/phoneBook/phonebook"
 )
 
 var MIN = 0
@@ -30,7 +32,7 @@ func getString(length int64) string {
 }
 
 func main() {
-	data, err := ListUsers()
+	data, err := phonebook.ListUsers()
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -44,40 +46,40 @@ func main() {
 	rand.Seed(SEED)
 	random_username := getString(5)
 
-	t := Userdata{
+	t := phonebook.Userdata{
 		Username:    random_username,
 		Name:        "Evgen",
 		Surname:     "Kartapov",
 		Description: "This is me!"}
 
-	id := AddUser(t)
+	id := phonebook.AddUser(t)
 	if id == -1 {
 		fmt.Println("There was an error adding user", t.Username)
 	}
 
-	err = DeleteUser(id)
+	err = phonebook.DeleteUser(id)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	// Попытка повторного удаления!
-	err = DeleteUser(id)
+	err = phonebook.DeleteUser(id)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	id = AddUser(t)
+	id = phonebook.AddUser(t)
 	if id == -1 {
 		fmt.Println("There was an error adding user", t.Username)
 	}
 
-	t = Userdata{
+	t = phonebook.Userdata{
 		Username:    random_username,
 		Name:        "Evgen",
 		Surname:     "Kartapov",
 		Description: "Fuck you =)"}
 
-	err = UpdateUser(t)
+	err = phonebook.UpdateUser(t)
 	if err != nil {
 		fmt.Println(err)
 	}
