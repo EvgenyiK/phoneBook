@@ -1,3 +1,25 @@
+/*
+    The package works on 2 tables on a PostgreSQL data base server.
+    The names of the tables are:
+        * Users
+        * Userdata
+    The definitions of the tables in the PostgreSQL server are:
+                CREATE TABLE Users (
+                ID SERIAL,
+                Username VARCHAR(100) PRIMARY KEY
+                );
+
+                CREATE TABLE Userdata (
+                UserID Int NOT NULL,
+                Name VARCHAR(100),
+                Surname VARCHAR(100),
+                Description VARCHAR(200)
+                );
+
+    This is rendered as code
+    This is not rendered as code
+*/
+
 package main
 
 import (
@@ -28,6 +50,16 @@ func init() {
 	}
 }
 
+
+/*
+This block of global variables holds the connection details 
+to the Postgres server
+ Hostname: is the IP or the hostname of the server
+ Port: is the TCP port the DB server listens to
+ Username: is the username of the database user
+ Password: is the password of the database user
+ Database: is the name of the Database in PostgreSQL
+*/
 var (
 	Hostname = os.Getenv("HOST")
 	Port     = 5432
