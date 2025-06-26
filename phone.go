@@ -1,4 +1,4 @@
-package phonebook
+package main
 
 import (
 	"database/sql"
@@ -29,15 +29,15 @@ func init() {
 }
 
 var (
-	Hostname = os.Getenv(HOST)
-	Port     = os.Getenv(PORT)
-	Username = os.Getenv(PGUSER)
-	Password = os.Getenv(PGPASS)
-	Database = os.Getenv(PGDB)
+	Hostname = os.Getenv("HOST")
+	Port     = 5432
+	Username = os.Getenv("PGUSER")
+	Password = os.Getenv("PGPASS")
+	Database = os.Getenv("PGDB")
 )
 
 func openConnection() (*sql.DB, error) {
-	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%ssslmode=disable",
+	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		Hostname, Port, Username, Password, Database)
 
 	db, err := sql.Open("postgres", conn)
