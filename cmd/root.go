@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"sort"
 
 	"github.com/spf13/cobra"
 )
@@ -18,6 +19,20 @@ type Record struct {
 }
 
 var data []Record
+
+type PhoneBook []Record
+
+func (p PhoneBook) Len() int {
+	return len(p)
+}
+
+func (p PhoneBook) Less(i, j int) bool {
+	return p[i].Name < p[j].Name // сортировка по имени
+}
+
+func (p PhoneBook) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
+}
 
 // Serialize сериализует переданные данные в JSON и записывает их в writer
 func Serialize(data interface{}, writer io.Writer) error {
@@ -40,6 +55,14 @@ func saveJSONFile(filepath string) error {
 	return nil
 }
 
+func PrettyPrintJSONstream(data interface{}) (string, error) {
+	jsonBytes, err := json.MarshalIndent(data, "", "  ")
+	if err != nil {
+		return "", err
+	}
+	return string(jsonBytes), nil
+}
+
 // search ищет запись по имени
 func search(name string) (int, Record) {
 	for i, rec := range data {
@@ -58,6 +81,17 @@ func deleteEntry(name string) error {
 	}
 	data = append(data[:index], data[index+1:]...)
 	return nil
+}
+
+func list() {
+	sort.Sort(PhoneBook(data))
+	text, err := PrettyPrintJSONstream(data)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(text)
+	fmt.Printf("%d records in total.\n", len(data))
 }
 
 // rootCmd represents the base command when called without any subcommands
